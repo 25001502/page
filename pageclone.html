@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WhatsApp Web Clone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #111b21;
+            color: #fff;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 350px;
+            background: #202c33;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #222d34;
+        }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: #202c33;
+            border-bottom: 1px solid #222d34;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #54656f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: #fff;
+        }
+        .sidebar-actions span {
+            margin-left: 18px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #aebac1;
+        }
+        .search-bar {
+            padding: 10px 16px;
+            background: #111b21;
+            border-bottom: 1px solid #222d34;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: none;
+            background: #2a3942;
+            color: #fff;
+            font-size: 15px;
+        }
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #222d34;
+            transition: background 0.2s;
+        }
+        .chat-item:hover {
+            background: #2a3942;
+        }
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #54656f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #fff;
+            margin-right: 14px;
+        }
+        .chat-info {
+            flex: 1;
+        }
+        .chat-name {
+            font-weight: 500;
+            font-size: 16px;
+            color: #fff;
+        }
+        .chat-last {
+            font-size: 13px;
+            color: #aebac1;
+            margin-top: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+        .chat-time {
+            font-size: 12px;
+            color: #8696a0;
+            margin-left: 8px;
+        }
+        .main {
+            flex: 1;
+            background: #0b141a;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .main-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: #202c33;
+            border-bottom: 1px solid #222d34;
+        }
+        .main-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #54656f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #fff;
+            margin-right: 12px;
+        }
+        .main-chat-name {
+            font-weight: 500;
+            font-size: 16px;
+            color: #fff;
+        }
+        .main-actions {
+            margin-left: auto;
+            color: #aebac1;
+            font-size: 20px;
+        }
+        .chat-body {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .message {
+            max-width: 60%;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 4px;
+            position: relative;
+            word-break: break-word;
+        }
+        .sent {
+            background: #005c4b;
+            align-self: flex-end;
+        }
+        .received {
+            background: #202c33;
+            align-self: flex-start;
+        }
+        .chat-footer {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            background: #202c33;
+            border-top: 1px solid #222d34;
+        }
+        .chat-footer input {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 20px;
+            border: none;
+            background: #2a3942;
+            color: #fff;
+            font-size: 15px;
+            margin: 0 12px;
+        }
+        .chat-footer span {
+            font-size: 22px;
+            color: #aebac1;
+            cursor: pointer;
+        }
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 80px;
+            }
+            .sidebar-header, .search-bar, .chat-item .chat-info {
+                display: none;
+            }
+            .chat-item .chat-avatar {
+                margin: 0;
+            }
+        }
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100vw;
+                height: 80px;
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 1px solid #222d34;
+            }
+            .main {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="avatar">T</div>
+                <div class="sidebar-actions">
+                    <span title="Status">&#9679;</span>
+                    <span title="New chat">&#9993;</span>
+                    <span title="Menu">&#8942;</span>
+                </div>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search or start new chat">
+            </div>
+            <div class="chat-list">
+                <div class="chat-item">
+                    <div class="chat-avatar">A</div>
+                    <div class="chat-info">
+                        <div class="chat-name">Alice</div>
+                        <div class="chat-last">Hey! How are you?</div>
+                    </div>
+                    <div class="chat-time">10:30</div>
+                </div>
+                <div class="chat-item">
+                    <div class="chat-avatar">B</div>
+                    <div class="chat-info">
+                        <div class="chat-name">Bob</div>
+                        <div class="chat-last">Let's meet at 5pm.</div>
+                    </div>
+                    <div class="chat-time">09:15</div>
+                </div>
+                <div class="chat-item">
+                    <div class="chat-avatar">C</div>
+                    <div class="chat-info">
+                        <div class="chat-name">Charlie</div>
+                        <div class="chat-last">Sent the files.</div>
+                    </div>
+                    <div class="chat-time">Yesterday</div>
+                </div>
+            </div>
+        </div>
+        <!-- Main Chat Area -->
+        <div class="main">
+            <div class="main-header">
+                <div class="main-avatar">A</div>
+                <div class="main-chat-name">Alice</div>
+                <div class="main-actions">
+                    <span title="Search">&#128269;</span>
+                    <span title="Attach">&#128206;</span>
+                    <span title="Menu">&#8942;</span>
+                </div>
+            </div>
+            <div class="chat-body">
+                <div class="message received">Hi there!</div>
+                <div class="message sent">Hello Alice! 👋</div>
+                <div class="message received">How are you?</div>
+                <div class="message sent">I'm good, thanks. How about you?</div>
+                <div class="message received">Doing well! 😊</div>
+            </div>
+            <div class="chat-footer">
+                <span title="Emoji">&#128515;</span>
+                <input type="text" placeholder="Type a message">
+                <span title="Send">&#10148;</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
